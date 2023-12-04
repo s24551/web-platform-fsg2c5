@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <title>React Components Example</title>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+  function Menu({ items }) {
+    return (
+      <nav>
+        {items.map((item, index) => (
+          <a key={index} href={item.link}>{item.name}</a>
+        ))}
+      </nav>
+    );
+  }
+
+  function PhotoGallery({ photos }) {
+    const [selectedPhoto, setSelectedPhoto] = React.useState(null);
+
+    return (
+      <div>
+        {photos.map((photo, index) => (
+          <img
+            key={index}
+            src={photo}
+            alt={`Photo ${index + 1}`}
+            onClick={() => setSelectedPhoto(photo)}
+          />
+        ))}
+
+        {selectedPhoto && (
+          <div
+            onClick={() => setSelectedPhoto(null)}
+          >
+            <img
+              src={selectedPhoto}
+              alt="Selected Photo"
+            />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function DataTable({ data, headers }) {
+    return (
+      <table>
+        <thead>
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {headers.map((header, colIndex) => (
+                <td key={colIndex}>{row[header]}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+
+  function App() {
+    const menuItems = [
+      { name: 'Home', link: '/home' },
+      { name: 'About', link: '/about' },
+      { name: 'Contact', link: '/contact' },
+    ];
+
+    const galleryPhotos = [
+      'https://via.placeholder.com/150',
+      'https://via.placeholder.com/150',
+      'https://via.placeholder.com/150',
+      // ... additional photo URLs
+    ];
+
+    const tableData = [
+      { name: 'John Doe', age: 25, city: 'New York' },
+      { name: 'Jane Smith', age: 30, city: 'San Francisco' },
+      // ... additional data rows
+    ];
+
+    const tableHeaders = ['name', 'age', 'city'];
+
+    return (
+      <div>
+        <Menu items={menuItems} />
+        <PhotoGallery photos={galleryPhotos} />
+        <DataTable data={tableData} headers={tableHeaders} />
+      </div>
+    );
+  }
+
+  ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+
+</body>
+</html>
